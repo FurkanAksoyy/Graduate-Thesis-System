@@ -1,0 +1,49 @@
+from django.contrib import admin
+from .models import (
+    Author, 
+    Cosupervisor, 
+    Institute, 
+    Keyword, 
+    Language, 
+    Subjecttopic, 
+    Supervisor, 
+    Thesis, 
+    Thesiskeyword, 
+    Thesissubject, 
+    Type, 
+    University, 
+    AuthGroup, 
+    AuthGroupPermissions, 
+    AuthPermission, 
+    AuthUser, 
+    AuthUserGroups, 
+    AuthUserUserPermissions, 
+    DjangoAdminLog, 
+    DjangoContentType, 
+    DjangoMigrations, 
+    DjangoSession
+)
+
+# Registering all models with the admin site
+admin.site.register(Author)
+admin.site.register(Cosupervisor)
+admin.site.register(Institute)
+admin.site.register(Keyword)
+admin.site.register(Language)
+admin.site.register(Subjecttopic)
+admin.site.register(Supervisor)
+admin.site.register(Thesis)
+admin.site.register(Thesiskeyword)
+admin.site.register(Thesissubject)
+admin.site.register(Type)
+admin.site.register(University)
+admin.site.register(AuthGroup)
+admin.site.register(AuthGroupPermissions)
+admin.site.register(AuthPermission)
+admin.site.register(AuthUser)
+admin.site.register(AuthUserGroups)
+admin.site.register(AuthUserUserPermissions)
+admin.site.register(DjangoAdminLog)
+admin.site.register(DjangoContentType)
+admin.site.register(DjangoMigrations)
+admin.site.register(DjangoSession)

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Thesis</title>
+    <style>
+
+        :root {
+    --primary-color: #0d6efd;
+    --border-color: #dee2e6;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    width: 95%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.author-section,
+.supervisor-section,
+.cosupervisor-section {
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+button:hover {
+    background-color: #0b5ed7;
+}
+
+button:active {
+    background-color: #0a58ca;
+}
+
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+select[disabled] {
+    background-color: #f1f1f1;
+}
+
+input:disabled {
+    background-color: #f1f1f1;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.custom-supervisor-section,
+.custom-cosupervisor-section {
+    margin-top: 1rem;
+}
+
+.custom-supervisor-section input,
+.custom-cosupervisor-section input {
+    width: 100%;
+}
+
+/* Header Styles */
+.main-header {
+            background: white;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            
+        }
+
+        .system-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            
+        }
+
+        .navigation-menu {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.2s;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--background-color);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <h1 class="system-title">Submit Thesis</h1>
+            <nav>
+                <ul class="navigation-menu">
+                    <li><a href="{% url 'index' %}" class="nav-btn">Home</a></li>
+                    <li><a href="{% url 'home' %}" class="nav-btn ">Admin Panel</a></li>
+                    <li><a href="{% url 'submit_thesis' %}" class="nav-btn active">Submit Thesis</a></li>
+                    <li><a href="{% url 'search_thesis' %}" class="nav-btn ">Search Thesis</a></li>
+                </ul>
+            </nav>
+        </header>
+        <form method="POST" id="thesisForm">
+            {% csrf_token %}
+
+            <!-- Author Section -->
+            <div class="author-section">
+                <h3>Author Information</h3>
+                <div class="form-group">
+                    <label>Author:</label>
+                    <select name="existing_author" id="existing_author">
+                        <option value="">-- Select Existing Author --</option>
+                        {% for author in authors %}
+                            <option value="{{ author.author_id }}">{{ author.author_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Or Add New Author:</label>
+                    <input type="text" name="new_author_name" id="new_author_name" placeholder="Enter new author name">
+                </div>
+            </div>
+
+            <!-- Thesis Details -->
+            <div class="form-group">
+                <label for="title">Thesis Title:</label>
+                <input type="text" name="title" id="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="abstract">Abstract:</label>
+                <textarea name="abstract" id="abstract" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <select name="year" id="year" required>
+                    <!-- Will be populated by JavaScript -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select name="type" id="type" required>
+                    {% for type in types %}
+                        <option value="{{ type.type_id }}">{{ type.type_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="university">University:</label>
+                <select name="university" id="university" required onchange="updateInstitutes()">
+                    <option value="">-- Select University --</option>
+                    {% for university in universities %}
+                        <option value="{{ university.university_id }}">{{ university.university_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="institute">Institute:</label>
+                <select name="institute" id="institute" required disabled>
+                    <option value="">-- Select Institute --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="language">Language:</label>
+                <select name="language" id="language" required>
+                    {% for language in languages %}
+                        <option value="{{ language.language_id }}">{{ language.language_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="number_of_pages">Number of Pages:</label>
+                <input type="number" name="number_of_pages" id="number_of_pages" required min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="submission_date">Submission Date:</label>
+                <input type="date" name="submission_date" id="submission_date" required>
+            </div>
+
+            <!-- Supervisor Section -->
+            <div class="form-group">
+                <label for="supervisor">Supervisor:*</label>
+                <select name="supervisor" id="supervisor" required>
+                    <option value="">-- Select Supervisor --</option>
+                    {% for supervisor in supervisors %}
+                        <option value="{{ supervisor.supervisor_id }}">{{ supervisor.supervisor_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="custom-supervisor-section" style="margin-top: 10px;">
+                    <label for="custom_supervisor">Or Enter Custom Supervisor:</label>
+                    <input type="text" name="custom_supervisor" id="custom_supervisor" placeholder="Enter supervisor name">
+                </div>
+            </div>
+
+            <!-- Co-supervisor Section -->
+            <div class="form-group">
+                <label for="cosupervisor">Co-Supervisor:</label>
+                <select name="cosupervisor" id="cosupervisor">
+                    <option value="">-- Select Co-Supervisor (Optional) --</option>
+                    {% for cosupervisor in cosupervisors %}
+                        <option value="{{ cosupervisor.cosup_id }}">{{ cosupervisor.cosup_name }}</option>
+                    {% endfor %}
+                </select>
+
+                <div class="custom-cosupervisor-section" style="margin-top: 10px;">
+                    <label for="custom_cosupervisor">Or Enter Custom Co-Supervisor:</label>
+                    <input type="text" name="custom_cosupervisor" id="custom_cosupervisor" placeholder="Enter co-supervisor name">
+                </div>
+            </div>
+
+            <button type="submit">Submit Thesis</button>
+            
+        </form>
+    </div>
+
+    <script>
+        // Populate year dropdown
+        const yearSelect = document.getElementById('year');
+        const currentYear = new Date().getFullYear();
+        for (let year = currentYear; year >= 1980; year--) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearSelect.appendChild(option);
+        }
+
+        // Handle author selection
+        const existingAuthorSelect = document.getElementById('existing_author');
+        const newAuthorInput = document.getElementById('new_author_name');
+
+        existingAuthorSelect.addEventListener('change', function() {
+            if (this.value) {
+                newAuthorInput.value = '';
+                newAuthorInput.disabled = true;
+            } else {
+                newAuthorInput.disabled = false;
+            }
+        });
+
+        newAuthorInput.addEventListener('input', function() {
+            if (this.value) {
+                existingAuthorSelect.value = '';
+                existingAuthorSelect.disabled = true;
+            } else {
+                existingAuthorSelect.disabled = false;
+            }
+        });
+
+        // Handle institute filtering based on university
+        const institutes = [
+            {% for institute in institutes %}
+                {
+                    id: {{ institute.institute_id }},
+                    name: "{{ institute.institute_name }}",
+                    university_id: {{ institute.university.university_id }}
+                }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        function updateInstitutes() {
+            const universitySelect = document.getElementById('university');
+            const instituteSelect = document.getElementById('institute');
+            const selectedUniversityId = universitySelect.value;
+
+            // Clear current options
+            instituteSelect.innerHTML = '<option value="">-- Select Institute --</option>';
+
+            if (selectedUniversityId) {
+                const filteredInstitutes = institutes.filter(inst => inst.university_id == selectedUniversityId);
+
+                filteredInstitutes.forEach(inst => {
+                    const option = document.createElement('option');
+                    option.value = inst.id;
+                    option.textContent = inst.name;
+                    instituteSelect.appendChild(option);
+                });
+
+                instituteSelect.disabled = false;
+            } else {
+                instituteSelect.disabled = true;
+            }
+        }
+
+        // Supervisor ve Co-supervisor etkileşimi için
+        const supervisorSelect = document.getElementById('supervisor');
+        const customSupervisorInput = document.getElementById('custom_supervisor');
+        const cosupervisorSelect = document.getElementById('cosupervisor');
+        const customCosupervisorInput = document.getElementById('custom_cosupervisor');
+
+        // Supervisor etkileşimi
+        supervisorSelect.addEventListener('change', function() {
+            if (this.value) {
+                customSupervisorInput.value = '';
+                customSupervisorInput.disabled = true;
+            } else {
+                customSupervisorInput.disabled = false;
+            }
+        });
+
+        customSupervisorInput.addEventListener('input', function() {
+            if (this.value) {
+                supervisorSelect.value = '';
+                supervisorSelect.disabled = true;
+            } else {
+                supervisorSelect.disabled = false;
+            }
+        });
+
+        // Co-supervisor etkileşimi
+        cosupervisorSelect.addEventListener('change', function() {
+            if (this.value) {
+                customCosupervisorInput.value = '';
+                customCosupervisorInput.disabled = true;
+            } else {
+                customCosupervisorInput.disabled = false;
+            }
+        });
+
+        customCosupervisorInput.addEventListener('input', function() {
+            if (this.value) {
+                cosupervisorSelect.value = '';
+                cosupervisorSelect.disabled = true;
+            } else {
+                cosupervisorSelect.disabled = false;
+            }
+        });
+
+        // Form validation
+        document.getElementById('thesisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const existingAuthor = existingAuthorSelect.value;
+            const newAuthor = newAuthorInput.value;
+
+            if (!existingAuthor && !newAuthor) {
+                alert('Please either select an existing author or enter a new author name');
+                return;
+            }
+
+            this.submit();
+        });
+    </script>
+</body>
+</html>

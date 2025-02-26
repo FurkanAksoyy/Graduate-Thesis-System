@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <header class="main-header">
+            <h1 class="system-title">Admin Panel</h1>
+            <nav>
+                <ul class="navigation-menu">
+                    <li><a href="{% url 'index' %}" class="nav-btn">Home</a></li>
+                    <li><a href="{% url 'home' %}" class="nav-btn active">Admin Panel</a></li>
+                    <li><a href="{% url 'submit_thesis' %}" class="nav-btn">Submit Thesis</a></li>
+                    <li><a href="{% url 'search_thesis' %}" class="nav-btn ">Search Thesis</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+        <!-- Author Tablosu -->
+        <div class="my-4">
+            <h2>Author</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for author in authors %}
+                        <tr>
+                            <td>{{ author.author_id }}</td>
+                            <td>{{ author.author_name }}</td>
+                            <td>
+                                <a href="{% url 'update' model_name='author' record_id=author.author_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='author' record_id=author.author_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='author' %}" class="btn btn-primary btn-sm">Add New Author</a>
+        </div>
+
+        
+        <!-- Institute Tablosu -->
+        <div class="my-4">
+            <h2>Institute</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>University</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for institute in institutes %}
+                        <tr>
+                            <td>{{ institute.institute_id }}</td>
+                            <td>{{ institute.institute_name }}</td>
+                            <td>{{ institute.university.university_name }}</td>
+                            <td>
+                                <a href="{% url 'update' model_name='institute' record_id=institute.institute_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='institute' record_id=institute.institute_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='institute' %}" class="btn btn-primary btn-sm">Add New Institute </a>
+        </div>
+
+        <!-- Keyword Tablosu -->
+        <div class="my-4">
+            <h2>Keyword</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for keyword in keywords %}
+                        <tr>
+                            <td>{{ keyword.keyword_id }}</td>
+                            <td>{{ keyword.keyword_name }}</td>
+                            <td>
+                                <a href="{% url 'update' model_name='keyword' record_id=keyword.keyword_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='keyword' record_id=keyword.keyword_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='keyword' %}" class="btn btn-primary btn-sm">Add New Keyword</a>
+        </div>
+
+        <!-- Language Tablosu -->
+        <div class="my-4">
+            <h2>Language</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for language in languages %}
+                        <tr>
+                            <td>{{ language.language_id }}</td>
+                            <td>{{ language.language_name }}</td>
+                            <td>
+                                <a href="{% url 'update' model_name='language' record_id=language.language_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='language' record_id=language.language_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='language' %}" class="btn btn-primary btn-sm">Add New Language</a>
+        </div>
+
+        <!-- Subjecttopic Tablosu -->
+        <div class="my-4">
+            <h2>Subjecttopic</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subjecttopic in subjecttopics %}
+                        <tr>
+                            <td>{{ subjecttopic.topic_id }}</td>
+                            <td>{{ subjecttopic.topic_name }}</td>
+                            
+                            <td>
+                                <a href="{% url 'update' model_name='subjecttopic' record_id=subjecttopic.topic_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='subjecttopic' record_id=subjecttopic.topic_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='subjecttopic' %}" class="btn btn-primary btn-sm">Add New Subject Topic</a>
+        </div>
+
+        <!-- Supervisor Tablosu -->
+        <div class="my-4">
+            <h2>Supervisor</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for supervisor in supervisors %}
+                        <tr>
+                            <td>{{ supervisor.supervisor_id }}</td>
+                            <td>{{ supervisor.supervisor_name }}</td>
+                            
+                            <td>
+                                <a href="{% url 'update' model_name='supervisor' record_id=supervisor.supervisor_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='supervisor' record_id=supervisor.supervisor_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='supervisor' %}" class="btn btn-primary btn-sm">Add New Supervisor</a>
+        </div>
+
+
+
+        <!-- CoSupervisor Tablosu -->
+        <div class="my-4">
+            <h2>Cosupervisor</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cosupervisor in cosupervisors %}
+                        <tr>
+                            <td>{{ cosupervisor.cosup_id }}</td>
+                            <td>{{ cosupervisor.cosup_name }}</td>
+                            
+                            <td>
+                                <a href="{% url 'update' model_name='cosupervisor' record_id=cosupervisor.cosup_id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='cosupervisor' record_id=cosupervisor.cosup_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='cosupervisor' %}" class="btn btn-primary btn-sm">Add New Cosupervisor</a>
+        </div>
+
+
+
+        <!-- Thesis Tablosu -->
+        <div class="my-4">
+            <h2>Thesis</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Thesis No</th>
+                        <th>Title</th>
+                        <th>Abstratc</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Type</th>
+                        <th>University</th>
+                        <th>Institute</th>
+                        <th>Number of Pages</th>
+                        <th>Language</th>
+                        <th>Submission Date</th>
+                        <th>Supervisor</th>
+                        <th>Cosupervisor</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for thesis in theses %}
+                        <tr>
+                            <td>{{ thesis.thesis_no }}</td>
+                            <td>{{ thesis.title }}</td>
+                            <td>{{ thesis.abstract }}</td>
+                            <td>{{ thesis.author.author_name }}</td>
+                            <td>{{ thesis.year }}</td>
+                            <td>{{ thesis.type.type_name }}</td>
+                            <td>{{ thesis.university.university_name }}</td>
+                            <td>{{ thesis.institute.institute_name }}</td>
+                            <td>{{ thesis.number_of_pages }}</td>
+                            <td>{{ thesis.language.language_name }}</td>
+                            <td>{{ thesis.submission_date }}</td>
+                            <td>{{ thesis.supervisor.supervisor_name }}</td>
+                            <td>{{ thesis.cosupervisor.cosup_name }}</td>
+                            
+                            <td>
+                                <a href="{% url 'update' model_name='thesis' record_id=thesis.thesis_no %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete' model_name='thesis' record_id=thesis.thesis_no %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'add' model_name='thesis' %}" class="btn btn-primary btn-sm">Add New Thesis</a>
+        </div>
+
+
+
+
+
+<!-- ThesisKeyword Tablosu -->
+<div class="my-4">
+    <h2>ThesisKeyword</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Thesis no </th>
+                <th>Keyword</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for thesiskeyword in thesiskeywords %}
+                <tr>
+                    <td>{{ thesiskeyword.id }}</td>
+                    <td>{{ thesiskeyword.thesis_no.thesis_no }}</td>
+                    <td>{{ thesiskeyword.keyword.keyword_id }}</td>
+                    
+                    <td>
+                        <a href="{% url 'update' model_name='thesiskeyword' record_id=thesiskeyword.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete' model_name='thesiskeyword' record_id=thesiskeyword.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add' model_name='thesiskeyword' %}" class="btn btn-primary btn-sm">Add New ThesisKeyword</a>
+</div>
+
+
+<!-- ThesisSubject Tablosu -->
+<div class="my-4">
+    <h2>ThesisSubject</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Thesis no </th>
+                <th>Subject</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for thesissubject in thesissubjects %}
+                <tr>
+                    <td>{{ thesissubject.id }}</td>
+                    <td>{{ thesissubject.thesis_no.thesis_no }}</td>
+                    <td>{{ thesissubject.topic.topic_id }}</td>
+                    
+                    <td>
+                        <a href="{% url 'update' model_name='thesissubject' record_id=thesissubject.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete' model_name='thesissubject' record_id=thesissubject.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add' model_name='thesissubject' %}" class="btn btn-primary btn-sm">Add New ThesisSubject</a>
+</div>
+
+
+
+<!-- Type Tablosu -->
+<div class="my-4">
+    <h2>Type</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for type in types %}
+                <tr>
+                    <td>{{ type.type_id }}</td>
+                    <td>{{ type.type_name }}</td>
+                    
+                    
+                    <td>
+                        <a href="{% url 'update' model_name='type' record_id=type.type_id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete' model_name='type' record_id=type.type_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add' model_name='type' %}" class="btn btn-primary btn-sm">Add New Type</a>
+</div>
+
+
+
+<!-- University Tablosu -->
+<div class="my-4">
+    <h2>University</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for university in universities %}
+                <tr>
+                    <td>{{ university.university_id }}</td>
+                    <td>{{ university.university_name }}</td>
+                    
+                    
+                    <td>
+                        <a href="{% url 'update' model_name='university' record_id=university.university_id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete' model_name='university' record_id=university.university_id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'add' model_name='university' %}" class="btn btn-primary btn-sm">Add New University</a>
+</div>
+        
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add collapse functionality to all tables except Author
+            const tables = document.querySelectorAll('.table');
+            const tableContainers = document.querySelectorAll('.my-4');
+        
+            tableContainers.forEach((container, index) => {
+                const heading = container.querySelector('h2');
+                const table = container.querySelector('.table');
+                const addButton = container.querySelector('.btn-primary');
+                
+                if (heading && table && addButton) {
+                    // Create collapse button
+                    const collapseBtn = document.createElement('button');
+                    collapseBtn.className = 'btn btn-sm btn-outline-secondary ms-2';
+                    collapseBtn.innerHTML = '▼';
+                    heading.appendChild(collapseBtn);
+        
+                    // Wrap table and add button in a div for collapse
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'collapse';
+                    
+                    // Move table and add button into collapse div
+                    table.parentNode.insertBefore(contentDiv, table);
+                    contentDiv.appendChild(table);
+                    contentDiv.appendChild(addButton);
+        
+                    // Initialize Bootstrap collapse
+                    const bsCollapse = new bootstrap.Collapse(contentDiv, {
+                        toggle: false
+                    });
+        
+                    // Toggle collapse on button click
+                    collapseBtn.addEventListener('click', () => {
+                        bsCollapse.toggle();
+                        collapseBtn.innerHTML = collapseBtn.innerHTML === '▼' ? '▲' : '▼';
+                    });
+        
+                    // Keep Author table expanded by default
+                    if (heading.textContent.trim() === 'Author') {
+                        bsCollapse.show();
+                        collapseBtn.innerHTML = '▲';
+                    }
+                }
+            });
+        });
+        </script>
+
+   
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+<style>
+    /* Modern CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variables */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --success-color: #059669;
+    --warning-color: #d97706;
+    --danger-color: #dc2626;
+    --background-color: #f8fafc;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --radius: 0.5rem;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Header Styles */
+h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Table Container */
+.my-4 {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.table th {
+    background-color: var(--background-color);
+    font-weight: 600;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: var(--background-color);
+}
+
+/* Button Styles */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.btn-warning:hover {
+    filter: brightness(90%);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    filter: brightness(90%);
+}
+
+.btn-outline-secondary {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--background-color);
+}
+
+/* Action Buttons Container */
+td .btn {
+    margin: 0 0.25rem;
+}
+
+/* Collapse Button */
+.btn-outline-secondary.ms-2 {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+}
+
+/* Collapse Animation */
+.collapse {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Table Scroll for Wide Tables */
+.table-bordered {
+    border: 1px solid var(--border-color);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #cbd5e1;
+}
+
+/* Additional Spacing for Action Buttons */
+td:last-child {
+    white-space: nowrap;
+}
+
+/* Table Cell Text Overflow */
+.table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Abstract Column Special Handling */
+td:nth-child(3) {
+    max-width: 300px;
+}
+
+/* Header Styles */
+        .main-header {
+            background: white;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .system-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .navigation-menu {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+            margin-left: -3rem;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--background-color);
+        }
+
+        .nav-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+</style>
+</body>
+</html>
